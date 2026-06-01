@@ -1,16 +1,48 @@
-# React + Vite
+# 🏥 Daryeele – Smart Healthcare Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Daryeele is a healthcare website built with React JS as the final project of my React journey at Dugsiiye. It provides a modern solution for patients to book appointments online instead of waiting at hospitals, and helps users easily find different doctors.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Tech Stack
 
-## React Compiler
+| Layer | Technology |
+|-------|------------|
+| UI Framework | React + Vite |
+| Styling | Tailwind CSS |
+| State Management | Context API + useReducer |
+| Routing | React Router |
+| Backend | Supabase |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 👥 User Roles
+
+### 🧑 Patient (user)
+- Browse all doctors
+- View doctor profiles and reviews
+- Book appointments
+- View and cancel upcoming appointments
+
+### 🩺 Doctor
+- Doctor view all his appointments
+- Confirm / cancle / complete appointments
+- Earnings summary
+
+### ⚙️ Admin
+- Add a doctor
+- Manage doctors
+
+
+---
+
+## 📝 License
+
+MIT
+
+---
+
+## 📸 Preview
+
+![Home](./src/assets/Daryeel.png)
