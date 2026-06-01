@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router'
-import supabase from '../lib/supabase'
-import toast, { Toaster } from 'react-hot-toast'
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import supabase from "../lib/supabase";
+import toast, { Toaster } from "react-hot-toast";
 import {
   HiUserAdd,
   HiArrowLeft,
@@ -10,91 +10,88 @@ import {
   HiCheckCircle,
   HiExclamationCircle,
   HiUser,
-  HiMail
-} from 'react-icons/hi'
+  HiMail,
+} from "react-icons/hi";
 
 const AdminDoctorsPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [specialty, setSpecialty] = useState('')
-  const [bio, setBio] = useState('')
-  const [image, setImage] = useState('')
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [specialty, setSpecialty] = useState("");
+  const [bio, setBio] = useState("");
+  const [image, setImage] = useState("");
 
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
 
     if (!name || !email || !specialty) {
-      toast.error('Name, Email and Specialty are required')
-      setLoading(false)
-      return
+      toast.error("Name, Email and Specialty are required");
+      setLoading(false);
+      return;
     }
 
     try {
       const { data: userData, error: userError } = await supabase
-        .from('users')
-        .select('*')
-        .eq('email', email.trim())
-        .single()
+        .from("users")
+        .select("*")
+        .eq("email", email.trim())
+        .single();
 
       if (userError || !userData) {
-        throw new Error('User not found. Ask them to sign up first.')
+        throw new Error("User not found. Ask them to sign up first.");
       }
 
-      const userId = userData.id
+      const userId = userData.id;
 
       const { error: roleError } = await supabase
-        .from('users')
-        .update({ role: 'doctor' })
-        .eq('id', userId)
+        .from("users")
+        .update({ role: "doctor" })
+        .eq("id", userId);
 
-      if (roleError) throw roleError
+      if (roleError) throw roleError;
 
       const { data: existingDoctor } = await supabase
-        .from('doctors')
-        .select('*')
-        .eq('user_id', userId)
-        .single()
+        .from("doctors")
+        .select("*")
+        .eq("user_id", userId)
+        .single();
 
       if (existingDoctor) {
-        throw new Error('This user is already a doctor.')
+        throw new Error("This user is already a doctor.");
       }
 
-      const { error: doctorError } = await supabase
-        .from('doctors')
-        .insert({
-          user_id: userId,
-          name: name.trim(),
-          specialty: specialty.trim(),
-          bio: bio.trim(),
-          image: image.trim() || 'https://via.placeholder.com/150'
-        })
+      const { error: doctorError } = await supabase.from("doctors").insert({
+        user_id: userId,
+        name: name.trim(),
+        specialty: specialty.trim(),
+        bio: bio.trim(),
+        image: image.trim() || "https://via.placeholder.com/150",
+      });
 
-      if (doctorError) throw doctorError
+      if (doctorError) throw doctorError;
 
-      toast.success('Doctor created successfully!')
+      toast.success("Doctor created successfully!");
 
-      setName('')
-      setEmail('')
-      setSpecialty('')
-      setBio('')
-      setImage('')
+      setName("");
+      setEmail("");
+      setSpecialty("");
+      setBio("");
+      setImage("");
 
       setTimeout(() => {
-        navigate('/admin/manage-doctors')
-      }, 1500)
-
+        navigate("/admin/manage-doctors");
+      }, 1500);
     } catch (error) {
-      console.error(error)
-      toast.error(error.message)
+      console.error(error);
+      toast.error(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -102,10 +99,9 @@ const AdminDoctorsPage = () => {
 
       <div className="min-h-screen bg-gray-50 py-8 px-4">
         <div className="max-w-2xl mx-auto">
-
           <div className="flex justify-between items-center mb-8">
             <button
-              onClick={() => navigate('/admin/manage-doctors')}
+              onClick={() => navigate("/admin/manage-doctors")}
               className="flex items-center text-gray-600 hover:text-blue-600 transition-colors font-medium"
             >
               <HiArrowLeft className="mr-1" />
@@ -118,8 +114,10 @@ const AdminDoctorsPage = () => {
             </h1>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 space-y-5">
-            
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 space-y-5"
+          >
             <div>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -193,17 +191,16 @@ const AdminDoctorsPage = () => {
             <button
               disabled={loading}
               className={`w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-bold text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all shadow-md ${
-                loading ? 'opacity-70 cursor-not-allowed' : ''
+                loading ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? 'Processing...' : 'Create Doctor'}
+              {loading ? "Processing..." : "Create Doctor"}
             </button>
-
           </form>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default AdminDoctorsPage
+export default AdminDoctorsPage;
